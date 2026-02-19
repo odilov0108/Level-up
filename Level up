@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level Up Game</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="script.js">
+</head>
+<body>
+
+<div class="game-container">
+  <h1>Level Up O'yini</h1>
+
+  <div class="track">
+    <div class="player" id="player">🚶</div>
+  </div>
+
+  <div id="level">Daraja: 0</div>
+  <div id="question"></div>
+
+  <input type="text" id="answer" placeholder="Javobingizni yozing">
+  <button id="submitBtn">Javob ber</button>
+
+  <div id="message"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #74ebd5, #acb6e5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background: #ddd;
+  border-radius: 20px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.player {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  font-size: 24px;
+  transition: left 0.5s ease;
+  transform: scaleX(-1);
+}
+
+#level {
+  font-size: 20px;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #007bff;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #218838;
+}
+
+#message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+let level = 0;
+const maxLevel = 10;
+
+const questions = [
+  {q: "O'zbekiston poytaxti?", a: "Toshkent"},
+  {q: "5 + 3 = ?", a: "8"},
+  {q: "Dunyoning eng katta okeani?", a: "Tinch"},
+  {q: "HTML nimaning qisqartmasi?", a: "HyperText Markup Language"},
+  {q: "JS nimaning qisqartmasi?", a: "JavaScript"},
+  {q: "CSS nimaning qisqartmasi?", a: "Cascading Style Sheets"},
+  {q: "7 x 6 = ?", a: "42"},
+  {q: "Yer nechta qit'adan iborat?", a: "7"},
+  {q: "Eng tez yuguruvchi hayvon?", a: "Gepard"},
+  {q: "2 ning kvadrati nechchi?", a: "4"}
+];
+
+let currentQuestionIndex = 0;
+
+const player = document.getElementById("player");
+const levelDiv = document.getElementById("level");
+const questionDiv = document.getElementById("question");
+const answerInput = document.getElementById("answer");
+const messageDiv = document.getElementById("message");
+const submitBtn = document.getElementById("submitBtn");
+
+function showQuestion() {
+  if (currentQuestionIndex >= questions.length) {
+    questionDiv.innerText = "🎉 Tabriklaymiz! 10-darajaga yetdingiz!";
+    answerInput.style.display = "none";
+    submitBtn.style.display = "none";
+    return;
+  }
+  questionDiv.innerText = questions[currentQuestionIndex].q;
+  answerInput.value = "";
+  answerInput.focus();
+}
+
+function updatePlayerPosition() {
+  const percent = (level / maxLevel) * 90; 
+  player.style.left = percent + "%";
+  levelDiv.innerText = "Daraja: " + level;
+}
+
+submitBtn.addEventListener("click", () => {
+  const userAnswer = answerInput.value.trim();
+
+  if (userAnswer.toLowerCase() === questions[currentQuestionIndex].a.toLowerCase()) {
+    if (level < maxLevel) level++;
+    currentQuestionIndex++;
+    messageDiv.style.color = "green";
+    messageDiv.innerText = "To'g'ri! Oldinga yurdingiz 🚀";
+  } else {
+    if (level > 0) level--;
+    messageDiv.style.color = "red";
+    messageDiv.innerText = "Noto'g'ri! Orqaga qaytdingiz ⬅️";
+  }
+
+  updatePlayerPosition();
+  setTimeout(showQuestion, 1000);
+});
+
+showQuestion();
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #74ebd5, #acb6e5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background: #ddd;
+  border-radius: 20px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.player {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  font-size: 24px;
+  transition: left 0.5s ease;
+  transform: scaleX(-1);
+}
+
+#level {
+  font-size: 20px;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #007bff;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #218838;
+}
+
+#message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+Commit changes
